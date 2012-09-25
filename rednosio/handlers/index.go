@@ -65,14 +65,18 @@ func handleUpload(w http.ResponseWriter, r *http.Request) error {
     _, err = io.Copy(h, fh)
     sha1 := fmt.Sprintf("%x", h.Sum(nil))
 
-    fp, err := os.OpenFile("uploads/" + sha1 + ".png", os.O_RDWR | os.O_CREATE, 0666)
-    if nil != err { return errors.New("Could not create upload file.") }
+    _, err = os.Stat("uploads/" + sha1 + ".png")
 
-    encerr := png.Encode(fp, mc)
-    if nil != encerr {
-        os.Remove(t.Name())
-        os.Remove(fp.Name())
-        return errors.New("Could not convert temp file to PNG.")
+    if nil != err {
+        fp, err := os.OpenFile("uploads/" + sha1 + ".png", os.O_RDWR | os.O_CREATE, 0666)
+        if nil != err { return errors.New("Could not create upload file.") }
+
+        encerr := png.Encode(fp, mc)
+        if nil != encerr {
+            os.Remove(t.Name())
+            os.Remove(fp.Name())
+            return errors.New("Could not convert temp file to PNG.")
+        }
     }
 
     os.Remove(t.Name())
