@@ -8,6 +8,7 @@
             $(document).ready(function() {
                 var id = "{{.ImgId}}";
                 var $pic = $("#pic");
+                var $save = $("#save");
                 var x = 0;
                 var y = 0;
 
@@ -15,7 +16,9 @@
                     var query = "id=" + id +
                                 "&x=" + x + "&y=" + y +
                                 "&s=" + $("#size").val();
-                    $pic.attr("src", "/image?"+query);
+
+                    $pic.attr("src", "/image?" + query);
+                    $save.attr("href", "/save?" + query);
                 }
 
                 $pic.click(function(e) {
@@ -39,5 +42,6 @@
         <input id="size" type="range" min="10" max="100" step="1" value="25"/>
         <p>Click the image to place the red nose.</p>
         <img id="pic"/>
+        <a id="save">Save Image</a>
     </body>
 </html>

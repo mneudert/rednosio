@@ -34,6 +34,9 @@ func Image(w http.ResponseWriter, r *http.Request) {
     png.Encode(w, i)
 }
 
+func SaveImage(w http.ResponseWriter, r *http.Request) {
+}
+
 func rednose(m image.Image, x, y, size int) image.Image {
     f, err := os.Open("static/rednose.png")
     if nil != err { return m }
