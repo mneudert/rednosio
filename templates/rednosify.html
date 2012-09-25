@@ -3,11 +3,41 @@
         <title>Rednosio</title>
         <link type="text/css" rel="stylesheet" href="/static/bootstrap.css"/>
         <script type="text/javascript" src="/static/jquery.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var id = "{{.ImgId}}";
+                var $pic = $("#pic");
+                var x = 0;
+                var y = 0;
+
+                function update() {
+                    var query = "id=" + id +
+                                "&x=" + x + "&y=" + y +
+                                "&s=" + $("#size").val();
+                    $pic.attr("src", "/image?"+query);
+                }
+
+                $pic.click(function(e) {
+                        x = e.pageX - this.offsetLeft;
+                        y = e.pageY - this.offsetTop;
+                        update();
+                });
+
+                $("#size").bind("mouseup", update);
+                update();
+            })
+        </script>
     </head>
 
     <body>
-        Place red nose on image.
+        <div class="hero-unit">
+            <h1>Rednosio</h1>
+            <p>Add a red nose to your images</p>
+        </div>
 
-        <img src="/image?id={{.ImgId}}"/>
+        <input id="size" type="range" min="10" max="100" step="1" value="25"/>
+        <p>Click the image to place the red nose.</p>
+        <img id="pic"/>
     </body>
 </html>

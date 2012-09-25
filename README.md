@@ -8,7 +8,13 @@ Rednosio is a shameless copy of
 
 ## Installation
 
-Once you have Go [installed](http://golang.org/doc/install):
+Let's assume Go is already [installed](http://golang.org/doc/install).
+
+Get the [Resize](https://github.com/nfnt/resize) library:
+
+    $ go get github.com/nfnt/resize
+
+Clone and run Rednosio:
 
     $ git clone git://github.com/mneudert/rednosio.git
     $ cd rednosio
@@ -25,6 +31,10 @@ In alphabetical order:
 - [jQuery](http://jquery.com/)
 - [Red Nose](http://www.pdclipart.org/displayimage.php?album=117&pos=9)
 (page calls it "red snooker ball" ^^)
+- [Resize](https://github.com/nfnt/resize)
+
+Lots of code (*cough* most of it *cough*) taken or inspired by
+[Mustachio](https://code.google.com/p/appengine-go/source/browse/example/moustachio)
 
 
 ## Contributing
