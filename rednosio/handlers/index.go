@@ -1,9 +1,17 @@
 package handlers
 
 import (
+    "crypto/sha1"
     "errors"
+    "fmt"
     "html/template"
+    "image"
+    "image/png"
+    _ "image/jpeg"
+    "io"
+    "io/ioutil"
     "net/http"
+    "os"
 )
 
 var (
@@ -21,7 +29,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
         err := handleUpload(w, r)
 
         if nil == err {
-            http.Redirect(w, r, "/rednosify", 302)
             return;
         }
 
@@ -33,11 +40,44 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleUpload(w http.ResponseWriter, r *http.Request) error {
-    _, _, err := r.FormFile("image")
+    f, _, err := r.FormFile("image")
+    if nil != err { return errors.New("No file selected.") }
 
+    t, err := ioutil.TempFile("uploads", "temp-")
+    if nil != err { return errors.New("Could not create temp file.") }
+
+    _, err = io.Copy(t, f)
+    if nil != err { return errors.New("Could not copy upload to temp file.") }
+
+    fh, err := os.Open(t.Name())
+    if nil != err { return errors.New("Could not open temp file.") }
+
+    fc, err := os.Open(t.Name())
+    if nil != err { return errors.New("Could not open temp file.") }
+
+    mc, _, err := image.Decode(fc)
     if nil != err {
-        return errors.New("No file selected!")
+        os.Remove(t.Name())
+        return errors.New("Could not decode temp file.")
     }
+
+    h := sha1.New()
+    _, err = io.Copy(h, fh)
+    sha1 := fmt.Sprintf("%x", h.Sum(nil))
+
+    fp, err := os.OpenFile("uploads/" + sha1 + ".png", os.O_RDWR | os.O_CREATE, 0666)
+    if nil != err { return errors.New("Could not create upload file.") }
+
+    encerr := png.Encode(fp, mc)
+    if nil != encerr {
+        os.Remove(t.Name())
+        os.Remove(fp.Name())
+        return errors.New("Could not convert temp file to PNG.")
+    }
+
+    os.Remove(t.Name())
+
+    http.Redirect(w, r, "/rednosify?id=" + sha1, 302)
 
     return nil
 }
