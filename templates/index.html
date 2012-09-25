@@ -10,5 +10,22 @@
             <h1>Rednosio</h1>
             <p>Add a red nose to your images</p>
         </div>
+
+        {{if .ErrMsg}}
+            <div class="alert alert-error">
+                <strong>Error!</strong> {{.ErrMsg}}
+            </div>
+        {{end}}
+
+        <form action="/"
+              method="POST"
+              enctype="multipart/form-data">
+            <legend>Upload the image to place red nose on</legend>
+
+            <label for="image">Image</label>
+            <input type="file" name="image"/>
+
+            <button type="submit" class="btn">Upload!</button>
+        </form>
     </body>
 </html>
