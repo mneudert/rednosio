@@ -3,6 +3,7 @@ package handlers
 import (
     "html/template"
     "net/http"
+    "os"
 )
 
 var (
@@ -11,6 +12,18 @@ var (
     ))
 )
 
+type editParams struct {
+    ImgId string
+}
+
 func Rednosify(w http.ResponseWriter, r *http.Request) {
-    editTemplates.ExecuteTemplate(w, "rednosify.html", nil)
+    id := r.FormValue("id")
+    _, err := os.Stat("uploads/" + id + ".png")
+
+    if nil != err {
+        http.Redirect(w, r, "/", 302)
+        return;
+    }
+
+    editTemplates.ExecuteTemplate(w, "rednosify.html", editParams{ImgId: id})
 }
