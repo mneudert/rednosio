@@ -23,6 +23,8 @@ In alphabetical order:
 
 - [Bootstrap](http://twitter.github.com/bootstrap/)
 - [jQuery](http://jquery.com/)
+- [Red Nose](http://www.pdclipart.org/displayimage.php?album=117&pos=9)
+(page calls it "red snooker ball" ^^)
 
 
 ## Contributing
