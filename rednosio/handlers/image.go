@@ -79,24 +79,17 @@ func SaveImage(w http.ResponseWriter, r *http.Request) {
 }
 
 func rednose(m image.Image, x, y, size int) image.Image {
-    f, err := os.Open("static/rednose.png")
-    if nil != err { return m }
-
-    n, err := png.Decode(f)
-    if nil != err { return m }
-
-    nres := resize.Resize(uint(size), 0, n, resize.Lanczos3)
-
-    nx, ny := nres.Bounds().Dx(), nres.Bounds().Dy()
+    n := getRednose(size)
+    if n == nil { return m }
 
     b := m.Bounds()
     mn := image.NewRGBA(b)
 
-    cp := image.Point{nx/2, ny/2}
-    np := image.Point{nx/2 - x, ny/2 - y}
+    cp := image.Point{size/2, size/2}
+    np := image.Point{size/2 - x, size/2 - y}
 
     draw.Draw(mn, m.Bounds(), m, image.ZP, draw.Src)
-    draw.DrawMask(mn, m.Bounds(), nres, np, &Circle{cp, size/2}, np, draw.Over)
+    draw.DrawMask(mn, m.Bounds(), n, np, &Circle{cp, size/2}, np, draw.Over)
 
     return mn
 }
@@ -127,4 +120,33 @@ func (c *Circle) At(x, y int) color.Color {
     }
 
     return color.Alpha{0}
+}
+
+func getRednose(size int) image.Image {
+    s := strconv.Itoa(size)
+
+    _, err := os.Stat("static/rednose/" + s + ".png")
+
+    if nil != err {
+        n, err := os.Open("static/rednose.png")
+        if nil != err { return nil }
+
+        i, _, err := image.Decode(n)
+        if nil != err { return nil }
+
+        ires := resize.Resize(uint(size), 0, i, resize.Lanczos3)
+
+        nres, err := os.OpenFile("static/rednose/" + s + ".png", os.O_RDWR | os.O_CREATE, 0666)
+        if nil != err { return nil }
+
+        png.Encode(nres, ires)
+    }
+
+    fs, err := os.Open("static/rednose/" + s + ".png")
+    if nil != err { return nil }
+
+    ns, err := png.Decode(fs)
+    if nil != err { return nil }
+
+    return ns
 }
