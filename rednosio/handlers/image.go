@@ -35,6 +35,47 @@ func Image(w http.ResponseWriter, r *http.Request) {
 }
 
 func SaveImage(w http.ResponseWriter, r *http.Request) {
+    sha1 := r.FormValue("id")
+
+    f, err := os.Open("uploads/" + sha1 + ".png")
+    if nil != err {
+        http.Redirect(w, r, "/", 302)
+        return
+    }
+
+    i, _, err := image.Decode(f)
+    if nil != err {
+        http.Redirect(w, r, "/rednosify?id=" + sha1, 302)
+        return
+    }
+
+    get := func(n string) int {
+        i, _ := strconv.Atoi(r.FormValue(n))
+        return i
+    }
+
+    x, y, s := get("x"), get("y"), get("s")
+
+    if x > 0 && y > 0 && s > 0 {
+        i = rednose(i, x, y, s)
+    }
+
+    d, err := os.OpenFile("downloads/" + r.FormValue("id") + "_" +
+                                         r.FormValue("x") + "_" +
+                                         r.FormValue("y") + "_" +
+                                         r.FormValue("s") + ".png",
+                          os.O_RDWR | os.O_CREATE, 0666)
+    if nil != err {
+        http.Redirect(w, r, "/rednosify?id=" + sha1, 302)
+        return
+    }
+
+    png.Encode(d, i)
+
+    http.Redirect(w, r, "downloads/" + r.FormValue("id") + "_" +
+                                       r.FormValue("x") + "_" +
+                                       r.FormValue("y") + "_" +
+                                       r.FormValue("s") + ".png", 302)
 }
 
 func rednose(m image.Image, x, y, size int) image.Image {
