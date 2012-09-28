@@ -85,54 +85,39 @@ func rednose(m image.Image, x, y, size int) image.Image {
     n, err := png.Decode(f)
     if nil != err { return m }
 
-    mrgba := rgba(m)
     nres := resize.Resize(uint(size), 0, n, resize.Lanczos3)
 
     nx, ny := nres.Bounds().Dx(), nres.Bounds().Dy()
 
-    b := mrgba.Bounds()
+    b := m.Bounds()
     mn := image.NewRGBA(b)
 
     cp := image.Point{nx/2, ny/2}
     np := image.Point{nx/2 - x, ny/2 - y}
 
-    draw.Draw(mn, mrgba.Bounds(), mrgba, image.ZP, draw.Src)
-    draw.DrawMask(mn, mrgba.Bounds(), nres, np, &circle{cp, size/2}, np, draw.Over)
+    draw.Draw(mn, m.Bounds(), m, image.ZP, draw.Src)
+    draw.DrawMask(mn, m.Bounds(), nres, np, &Circle{cp, size/2}, np, draw.Over)
 
     return mn
 }
 
-func rgba(m image.Image) *image.RGBA {
-    if r, ok := m.(*image.RGBA); ok {
-        return r
-    }
-
-    b := m.Bounds()
-    r := image.NewRGBA(b)
-
-    draw.Draw(r, b, image.Transparent, image.ZP, draw.Src)
-    draw.Draw(r, b, m, image.ZP, draw.Src)
-
-    return r
-}
-
-type circle struct {
+type Circle struct {
     p image.Point
     r int
 }
 
-func (c *circle) ColorModel() color.Model {
+func (c *Circle) ColorModel() color.Model {
     return color.AlphaModel
 }
 
-func (c *circle) Bounds() image.Rectangle {
+func (c *Circle) Bounds() image.Rectangle {
     return image.Rect(c.p.X - c.r,
                       c.p.Y - c.r,
                       c.p.X + c.r,
                       c.p.Y + c.r)
 }
 
-func (c *circle) At(x, y int) color.Color {
+func (c *Circle) At(x, y int) color.Color {
     xx, yy, rr := float64(x-c.p.X) + 0.5,
                   float64(y-c.p.Y) + 0.5,
                   float64(c.r)
