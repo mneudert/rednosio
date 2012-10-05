@@ -2,4 +2,14 @@
 
 <h2>Browse Downloads</h2>
 
+{{if .Files}}
+    <ul>
+        {{range .Files}}
+        <li>{{.}}</li>
+        {{end}}
+    </ul>
+{{else}}
+    <p>No downloads found.</p>
+{{end}}
+
 {{template "footer" .}}

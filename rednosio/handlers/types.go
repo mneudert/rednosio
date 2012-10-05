@@ -7,6 +7,11 @@ type Page struct {
     PageTitle string
 }
 
+type BrowsePage struct {
+    Page
+    Files []string
+}
+
 type IndexPage struct {
     Page
     ErrMsg string
