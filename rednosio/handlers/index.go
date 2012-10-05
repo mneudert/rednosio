@@ -22,11 +22,10 @@ var (
     ))
 )
 
-type indexParams struct {
-    ErrMsg string
-}
-
 func Index(w http.ResponseWriter, r *http.Request) {
+    page := new(IndexPage)
+    page.NavHome = true
+
     if "POST" == r.Method {
         err := handleUpload(w, r)
 
@@ -34,11 +33,10 @@ func Index(w http.ResponseWriter, r *http.Request) {
             return;
         }
 
-        indexTemplates.ExecuteTemplate(w, "index.html", indexParams{ErrMsg: err.Error()})
-        return;
+        page.ErrMsg = err.Error()
     }
 
-    indexTemplates.ExecuteTemplate(w, "index.html", nil)
+    indexTemplates.ExecuteTemplate(w, "index.html", page)
 }
 
 func handleUpload(w http.ResponseWriter, r *http.Request) error {

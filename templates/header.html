@@ -1,7 +1,7 @@
 {{define "header"}}
 <html>
     <head>
-        <title>Rednosio</title>
+        <title>Rednosio{{if .PageTitle}} - {{.PageTitle}}{{end}}</title>
         <link type="text/css" rel="stylesheet" href="/static/bootstrap.css"/>
         <link type="text/css" rel="stylesheet" href="/static/rednosio.css"/>
         <script type="text/javascript" src="/static/jquery.js"></script>
@@ -14,7 +14,9 @@
                     <span class="brand">Rednosio</span>
 
                     <ul class="nav">
-                        <li class="active"><a href="/">Home</a></li>
+                        <li{{if .NavHome}} class="active"{{end}}><a href="/">Home</a></li>
+                        <li{{if .NavUploads}} class="active"{{end}}><a href="/browse/uploads">Uploads</a></li>
+                        <li{{if .NavDownloads}} class="active"{{end}}><a href="/browse/downloads">Downloads</a></li>
                     </ul>
                 </div>
             </div>

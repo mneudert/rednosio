@@ -8,8 +8,6 @@ import (
 var (
     errorTemplates = template.Must(template.ParseFiles(
         "templates/error.html",
-        "templates/footer.html",
-        "templates/header.html",
     ))
 )
 

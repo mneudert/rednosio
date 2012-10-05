@@ -7,16 +7,12 @@ import (
 )
 
 var (
-    editTemplates = template.Must(template.ParseFiles(
+    rednosifyTemplates = template.Must(template.ParseFiles(
         "templates/footer.html",
         "templates/header.html",
         "templates/rednosify.html",
     ))
 )
-
-type editParams struct {
-    ImgId string
-}
 
 func Rednosify(w http.ResponseWriter, r *http.Request) {
     id := r.FormValue("id")
@@ -27,5 +23,10 @@ func Rednosify(w http.ResponseWriter, r *http.Request) {
         return;
     }
 
-    editTemplates.ExecuteTemplate(w, "rednosify.html", editParams{ImgId: id})
+    page := new(RednosifyPage)
+    page.ImgId = id
+    page.NavHome = true
+    page.PageTitle = "Rednosify Image"
+
+    rednosifyTemplates.ExecuteTemplate(w, "rednosify.html", page)
 }
