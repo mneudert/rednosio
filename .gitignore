@@ -1,3 +1,5 @@
 downloads/*.png
 static/rednose/*.png
+thumbs/downloads/*.png
+thumbs/uploads/*.png
 uploads/*.png
