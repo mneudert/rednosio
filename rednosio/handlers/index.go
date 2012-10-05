@@ -16,6 +16,8 @@ import (
 
 var (
     indexTemplates = template.Must(template.ParseFiles(
+        "templates/footer.html",
+        "templates/header.html",
         "templates/index.html",
     ))
 )

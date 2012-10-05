@@ -8,6 +8,8 @@ import (
 
 var (
     editTemplates = template.Must(template.ParseFiles(
+        "templates/footer.html",
+        "templates/header.html",
         "templates/rednosify.html",
     ))
 )

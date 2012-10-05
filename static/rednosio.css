@@ -1,0 +1,18 @@
+.punchline {
+    margin-top: 25px;
+    text-align: center;
+}
+
+#image-upload {
+    text-align: center;
+}
+
+#rednosifier {
+    list-style-type: none;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#rednosifier li {
+    margin-top: 12px;
+}

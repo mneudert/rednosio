@@ -1,31 +1,24 @@
-<html>
-    <head>
-        <title>Rednosio</title>
-        <link type="text/css" rel="stylesheet" href="/static/bootstrap.css"/>
-        <script type="text/javascript" src="/static/jquery.js"></script>
-    </head>
+{{template "header"}}
 
-    <body>
-        <div class="hero-unit">
-            <h1>Rednosio</h1>
-            <p>Add a red nose to your images</p>
-        </div>
+<div class="alert alert-info punchline">
+    <strong>Add a red nose to your images!</strong>
+</div>
 
-        {{if .ErrMsg}}
-            <div class="alert alert-error">
-                <strong>Error!</strong> {{.ErrMsg}}
-            </div>
-        {{end}}
+{{if .ErrMsg}}
+    <div class="alert alert-error">
+        <strong>Error!</strong> {{.ErrMsg}}
+    </div>
+{{end}}
 
-        <form action="/"
-              method="POST"
-              enctype="multipart/form-data">
-            <legend>Upload the image to place red nose on</legend>
+<form id="image-upload"
+      action="/"
+      method="POST"
+      enctype="multipart/form-data">
+    <legend>Upload the image to place red nose on</legend>
 
-            <label for="image">Image</label>
-            <input type="file" name="image"/>
+    <input type="file" name="image"/>
 
-            <button type="submit" class="btn">Upload!</button>
-        </form>
-    </body>
-</html>
+    <button type="submit" class="btn">Upload!</button>
+</form>
+
+{{template "footer"}}
