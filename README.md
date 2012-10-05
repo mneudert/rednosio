@@ -44,4 +44,4 @@ Fork, make awesomer, request pull! It's as easy as it sounds.
 
 ## Authors
 
-* Marc Neudert <marc.neudert@gmail.com>
+* Marc Neudert <marc.neudert (at) gmail (dot) com>
