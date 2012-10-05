@@ -13,8 +13,9 @@ func main() {
     http.HandleFunc("/rednosify", handlers.Error(handlers.Rednosify))
     http.HandleFunc("/save", handlers.Error(handlers.SaveImage))
 
-    http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
     http.Handle("/downloads/", http.StripPrefix("/downloads/", http.FileServer(http.Dir("./downloads"))))
+    http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+    http.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
     http.ListenAndServe(":8080", nil)
 }
