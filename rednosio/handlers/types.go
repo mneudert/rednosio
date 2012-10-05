@@ -9,7 +9,7 @@ type Page struct {
 
 type BrowsePage struct {
     Page
-    Files []string
+    Files [][]string
 }
 
 type IndexPage struct {

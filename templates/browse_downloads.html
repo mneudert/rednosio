@@ -2,14 +2,19 @@
 
 <h2>Browse Downloads</h2>
 
-{{if .Files}}
-    <ul>
-        {{range .Files}}
-        <li><img src="/downloads/{{.}}"/></li>
-        {{end}}
-    </ul>
+<div id="browse">
+{{range .Files}}
+    <div class="row">
+    {{range .}}
+        <div class="span2 image">
+            <img src="/downloads/{{.}}.png"/>
+            <a href="/downloads/{{.}}.png">Direct Link</a>
+        </div>
+    {{end}}
+    </div>
 {{else}}
-    <p>No downloads found.</p>
+    <div class="alert alert-info">No downloads found.</div>
 {{end}}
+</div>
 
 {{template "footer" .}}

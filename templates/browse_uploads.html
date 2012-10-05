@@ -2,14 +2,19 @@
 
 <h2>Browse Uploads</h2>
 
-{{if .Files}}
-    <ul>
-        {{range .Files}}
-        <li><img src="/uploads/{{.}}"/></li>
-        {{end}}
-    </ul>
+<div id="browse">
+{{range .Files}}
+    <div class="row">
+    {{range .}}
+        <div class="span2 image">
+            <img src="/uploads/{{.}}.png"/>
+            <a href="/rednosify?id={{.}}">Rednosify</a>
+        </div>
+    {{end}}
+    </div>
 {{else}}
-    <p>No uploads found.</p>
+    <div class="alert alert-info">No uploads found.</div>
 {{end}}
+</div>
 
 {{template "footer" .}}

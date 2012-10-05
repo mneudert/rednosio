@@ -16,7 +16,7 @@ var (
 )
 
 func BrowseDownloads(w http.ResponseWriter, r *http.Request) {
-    files := make([]string, 0)
+    files := make([][]string, 0)
 
     d, err := os.Open("downloads/")
     if err != nil { panic(err) }
@@ -24,14 +24,19 @@ func BrowseDownloads(w http.ResponseWriter, r *http.Request) {
     fi, err := d.Readdir(-1)
     if err != nil { panic(err) }
 
-    for _, fi := range fi {
+    for i, fi := range fi {
+        row := i / 6
+        col := i % 6
+
+        if 0 == col { files = append(files, make([]string, 0)) }
+
         fn := fi.Name()
         fl := len(fn)
 
         if 44 > fl { continue } // sha1 (40 chars) + .png + x
         if ".png" != fn[fl-4:] { continue }
 
-        files = append(files, fn)
+        files[row] = append(files[row], fn[:fl-4])
     }
 
     page := new(BrowsePage)
@@ -46,7 +51,7 @@ func BrowseDownloads(w http.ResponseWriter, r *http.Request) {
 }
 
 func BrowseUploads(w http.ResponseWriter, r *http.Request) {
-    files := make([]string, 0)
+    files := make([][]string, 0)
 
     d, err := os.Open("uploads/")
     if err != nil { panic(err) }
@@ -54,14 +59,19 @@ func BrowseUploads(w http.ResponseWriter, r *http.Request) {
     fi, err := d.Readdir(-1)
     if err != nil { panic(err) }
 
-    for _, fi := range fi {
+    for i, fi := range fi {
+        row := i / 6
+        col := i % 6
+
+        if 0 == col { files = append(files, make([]string, 0)) }
+
         fn := fi.Name()
         fl := len(fn)
 
         if 44 > fl { continue } // sha1 (40 chars) + .png + x
         if ".png" != fn[fl-4:] { continue }
 
-        files = append(files, fn)
+        files[row] = append(files[row], fn[:fl-4])
     }
 
     page := new(BrowsePage)
