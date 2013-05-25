@@ -1,11 +1,25 @@
 package main
 
 import (
+    "fmt"
+    "log"
     "net/http"
+    "os"
+    "strconv"
+
     "./rednosio/handlers"
 )
 
 func main() {
+    args := os.Args;
+    port := 8080;
+
+    if 3 == len(args) && "--port" == args[1] {
+        port, _ = strconv.Atoi(args[2]);
+    }
+
+    log.Printf("Listening at \":%d\"\n", port)
+
     http.HandleFunc("/", handlers.Error(handlers.Index))
     http.HandleFunc("/browse/downloads", handlers.Error(handlers.BrowseDownloads))
     http.HandleFunc("/browse/uploads", handlers.Error(handlers.BrowseUploads))
@@ -18,5 +32,5 @@ func main() {
     http.Handle("/downloads/", http.StripPrefix("/downloads/", http.FileServer(http.Dir("./downloads"))))
     http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
-    http.ListenAndServe(":8080", nil)
+    http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 }
