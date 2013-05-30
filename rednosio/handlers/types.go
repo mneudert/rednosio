@@ -1,23 +1,23 @@
 package handlers
 
 type Page struct {
-    NavHome bool
-    NavDownloads bool
-    NavUploads bool
-    PageTitle string
+	NavHome      bool
+	NavDownloads bool
+	NavUploads   bool
+	PageTitle    string
 }
 
 type BrowsePage struct {
-    Page
-    Files [][]string
+	Page
+	Files [][]string
 }
 
 type IndexPage struct {
-    Page
-    ErrMsg string
+	Page
+	ErrMsg string
 }
 
 type RednosifyPage struct {
-    Page
-    ImgId string
+	Page
+	ImgId string
 }
