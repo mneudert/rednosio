@@ -107,18 +107,28 @@ func BrowseUploads(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteDownload(w http.ResponseWriter, r *http.Request) {
-	thumb  := fmt.Sprintf("thumbs/downloads/%s.png", r.FormValue("id"))
-	_, err := os.Stat(thumb)
+	deleteFile(fmt.Sprintf("downloads/%s.png", r.FormValue("id")))
+
+	http.Redirect(w, r, "/browse/downloads", 302)
+}
+
+func DeleteUpload(w http.ResponseWriter, r *http.Request) {
+	deleteFile(fmt.Sprintf("uploads/%s.png", r.FormValue("id")))
+
+	http.Redirect(w, r, "/browse/uploads", 302)
+}
+
+func deleteFile(filename string) {
+	_, err := os.Stat(filename)
 
 	if nil == err {
-		os.Remove(thumb)
+		os.Remove(filename)
 	}
 
-	image  := fmt.Sprintf("downloads/%s.png", r.FormValue("id"))
-	_, err  = os.Stat(image)
+	_, err = os.Stat("thumbnails/" + filename)
 
 	if nil == err {
-		os.Remove(image)
+		os.Remove("thumbnails/" + filename)
 	}
 
 	http.Redirect(w, r, "/browse/downloads", 302)

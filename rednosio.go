@@ -27,6 +27,7 @@ func main() {
 		http.HandleFunc("/browse/downloads", handlers.Error(handlers.BrowseDownloads))
 		http.HandleFunc("/browse/uploads", handlers.Error(handlers.BrowseUploads))
 		http.HandleFunc("/delete/download", handlers.Error(handlers.DeleteDownload))
+		http.HandleFunc("/delete/upload", handlers.Error(handlers.DeleteUpload))
 		http.HandleFunc("/image", handlers.Error(handlers.Image))
 		http.HandleFunc("/rednosify", handlers.Error(handlers.Rednosify))
 		http.HandleFunc("/save", handlers.Error(handlers.SaveImage))
