@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -103,4 +104,22 @@ func BrowseUploads(w http.ResponseWriter, r *http.Request) {
 	}
 
 	browseTemplates.ExecuteTemplate(w, "browse_uploads.html", page)
+}
+
+func DeleteDownload(w http.ResponseWriter, r *http.Request) {
+	thumb  := fmt.Sprintf("thumbs/downloads/%s.png", r.FormValue("id"))
+	_, err := os.Stat(thumb)
+
+	if nil == err {
+		os.Remove(thumb)
+	}
+
+	image  := fmt.Sprintf("downloads/%s.png", r.FormValue("id"))
+	_, err  = os.Stat(image)
+
+	if nil == err {
+		os.Remove(image)
+	}
+
+	http.Redirect(w, r, "/browse/downloads", 302)
 }

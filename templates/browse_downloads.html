@@ -8,7 +8,7 @@
     {{range .}}
         <div class="span2 image">
             <img src="/thumb/download?id={{.}}"/>
-            <a href="/downloads/{{.}}.png">Direct Link</a>
+            <a href="/downloads/{{.}}.png">Direct Link</a> - <a href="/delete/download?id={{.}}">Delete</a>
         </div>
     {{end}}
     </div>

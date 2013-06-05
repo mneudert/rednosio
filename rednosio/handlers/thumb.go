@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"image"
 	"image/png"
 	"net/http"
@@ -10,11 +11,12 @@ import (
 )
 
 func DownloadThumb(w http.ResponseWriter, r *http.Request) {
-	f, err := os.Open("thumbs/downloads/" + r.FormValue("id") + ".png")
+	thumb  := fmt.Sprintf("thumbs/downloads/%s.png", r.FormValue("id"))
+	f, err := os.Open(thumb)
 	if nil != err {
 		createThumb("downloads", r.FormValue("id"))
 
-		f, err = os.Open("thumbs/downloads/" + r.FormValue("id") + ".png")
+		f, err = os.Open(thumb)
 		if nil != err {
 			return
 		}
@@ -30,11 +32,12 @@ func DownloadThumb(w http.ResponseWriter, r *http.Request) {
 }
 
 func UploadThumb(w http.ResponseWriter, r *http.Request) {
-	f, err := os.Open("thumbs/uploads/" + r.FormValue("id") + ".png")
+	thumb  := fmt.Sprintf("thumbs/uploads/%s.png", r.FormValue("id"))
+	f, err := os.Open(thumb)
 	if nil != err {
 		createThumb("uploads", r.FormValue("id"))
 
-		f, err = os.Open("thumbs/uploads/" + r.FormValue("id") + ".png")
+		f, err = os.Open(thumb)
 		if nil != err {
 			return
 		}
@@ -50,7 +53,8 @@ func UploadThumb(w http.ResponseWriter, r *http.Request) {
 }
 
 func createThumb(folder, id string) {
-	n, err := os.Open(folder + "/" + id + ".png")
+	thumb  := fmt.Sprintf("%s/%s.png", folder, id)
+	n, err := os.Open(thumb)
 	if nil != err {
 		return
 	}
@@ -62,7 +66,7 @@ func createThumb(folder, id string) {
 
 	ires := resize.Resize(140, 0, i, resize.Lanczos3)
 
-	nres, err := os.OpenFile("thumbs/"+folder+"/"+id+".png", os.O_RDWR|os.O_CREATE, 0666)
+	nres, err := os.OpenFile("thumbs/" + thumb, os.O_RDWR|os.O_CREATE, 0666)
 	if nil != err {
 		return
 	}
