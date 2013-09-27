@@ -18,7 +18,8 @@ Clone and run Rednosio:
 
     $ git clone git://github.com/mneudert/rednosio.git
     $ cd rednosio
-    $ go run rednosio.go
+    // leave "--port 8080" to use the default port (8080)
+    $ go run rednosio.go --port 8080
 
 Browse to [localhost:8080](http://localhost:8080) and start to rednosify!
 
@@ -39,9 +40,4 @@ Lots of code (*cough* most of it *cough*) taken or inspired by
 
 ## Contributing
 
-Fork, make awesomer, request pull! It's as easy as it sounds.
-
-
-## Authors
-
-* Marc Neudert &lt;marc.neudert (at) gmail (dot) com&gt;
+Fork, make more awesome, request pull! It's as easy as it sounds.
